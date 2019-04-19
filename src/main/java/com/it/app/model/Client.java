@@ -18,7 +18,7 @@ public class Client {
     private User user;
 
     @ManyToMany(mappedBy = "client", fetch = FetchType.EAGER)
-    private Set<Service> services;
+    private Set<ServiceModel> services;
 
 
     public Long getId() {
@@ -45,11 +45,11 @@ public class Client {
         this.user = user;
     }
 
-    public Set<Service> getServices() {
+    public Set<ServiceModel> getServices() {
         return services;
     }
 
-    public void setServices(Set<Service> services) {
+    public void setServices(Set<ServiceModel> services) {
         this.services = services;
     }
 }

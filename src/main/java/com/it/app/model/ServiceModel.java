@@ -6,7 +6,7 @@ import java.util.Set;
 // класс, где создается таблица Service, ее столбцы и связи с другими таблицами БД
 @Entity
 @Table
-public class Service {
+public class ServiceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
