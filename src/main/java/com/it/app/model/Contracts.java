@@ -1,14 +1,17 @@
 package com.it.app.model;
 
 import javax.persistence.*;
-// класс, где создается таблица Contracts, ее столбцы и связи с другими таблицами БД
+
+/**
+ * Class for creating the table Contracts
+ */
 @Entity
 @Table
 public class Contracts {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-//связь с таблицей Realtor многие к одному
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "realtor_id")
     private Realtor realtor;

@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface RepairService {
 
-    Repair addRepair(Repair repair);
+    List<Repair> findAll();
 
-    void delete(long id);
+    Repair findById(Long id);
 
-    Repair getByName(String name);
+    Repair save(Repair repair);
 
-    Repair editRepair(Repair repair);
+    Repair update(Repair repair);
 
-    List<Repair> getAll();
+    void delete(Repair repair);
+
+    void deleteById(Long id);
 }

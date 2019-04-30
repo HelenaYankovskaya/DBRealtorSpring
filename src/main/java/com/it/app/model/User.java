@@ -1,11 +1,18 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
-// класс, где создается таблица User, ее столбцы и связи с другими таблицами БД
-@Table
+/**
+ * Class for creating the table User
+ */
+
 @Entity
+@Table(name = "USER")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,10 +23,17 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Realtor realtor;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{user.name.notNull}")
+    @NotEmpty(message = "{user.name.notEmpty}")
+    @Size(min = 3, max = 50, message = "{user.name.size}")
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "UserRoleId")
+
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "UserRoleId", nullable = false)
     private UserRole userRole;
 
     public Long getId() {
@@ -62,12 +76,24 @@ public class User {
         this.realtor = realtor;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", clients=" + clients +
+                ", realtor=" + realtor +
                 ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", userRole=" + userRole +
                 '}';
     }
-
 }
+

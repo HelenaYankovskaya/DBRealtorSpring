@@ -2,7 +2,10 @@ package com.it.app.model;
 
 import javax.persistence.*;
 
-// класс, где создается таблица RecommendedValue, ее столбцы и связи с другими таблицами БД
+/**
+ * Class for creating the table RecommendedValue
+ */
+
 @Entity
 @Table
 public class RecommendedValue {

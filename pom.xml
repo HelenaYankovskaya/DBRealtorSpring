@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.it</groupId>
-    <artifactId>DBRealtorSpringMVC</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>MySpringREST</artifactId>
+    <version>1.0</version>
     <packaging>war</packaging>
-    <name>Spring MVC</name>
+    <name>MySpringREST</name>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -16,9 +15,13 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <org.spring.core>5.1.5.RELEASE</org.spring.core>
         <org.spring.data>2.1.5.RELEASE</org.spring.data>
+        <hibernate.entitymanager>5.4.2.Final</hibernate.entitymanager>
         <mysql.version>8.0.13</mysql.version>
         <javax.servlet>4.0.1</javax.servlet>
-        <javax.jstl>1.2</javax.jstl>
+        <jackson.core>2.9.8</jackson.core>
+        <hibernate.validator>6.0.16.Final</hibernate.validator>
+        <dozer>5.5.1</dozer>
+        <logback>1.2.3</logback>
     </properties>
 
     <dependencies>
@@ -33,9 +36,9 @@
             <version>${org.spring.core}</version>
         </dependency>
         <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-entitymanager</artifactId>
-            <version>5.4.2.Final</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${org.spring.core}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -43,14 +46,14 @@
             <version>${org.spring.data}</version>
         </dependency>
         <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.entitymanager}</version>
+        </dependency>
+        <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>${mysql.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${org.spring.core}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -59,9 +62,29 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${javax.jstl}</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.core}</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate.validator</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate.validator}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback}</version>
         </dependency>
     </dependencies>
 
@@ -70,6 +93,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
@@ -77,3 +101,19 @@
         </plugins>
     </build>
 </project>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -3,7 +3,9 @@ package com.it.app.model;
 import javax.persistence.*;
 import java.util.Set;
 
-// класс, где создается таблица Service, ее столбцы и связи с другими таблицами БД
+/**
+ * Class for creating the table ServiceModel
+ */
 @Entity
 @Table
 public class ServiceModel {
@@ -11,7 +13,9 @@ public class ServiceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String service;
+    private String serviceModel;
+
+    private Long serviceValue;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "Service_Client",
@@ -27,12 +31,20 @@ public class ServiceModel {
         this.id = id;
     }
 
-    public String getService() {
-        return service;
+    public String getServiceModel() {
+        return serviceModel;
     }
 
-    public void setService(String service) {
-        this.service = service;
+    public void setServiceModel(String serviceModel) {
+        this.serviceModel = serviceModel;
+    }
+
+    public Long getServiceValue() {
+        return serviceValue;
+    }
+
+    public void setServiceValue(Long serviceValue) {
+        this.serviceValue = serviceValue;
     }
 
     public Set<Client> getClient() {

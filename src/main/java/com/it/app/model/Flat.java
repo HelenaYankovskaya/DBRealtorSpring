@@ -2,7 +2,9 @@ package com.it.app.model;
 
 import javax.persistence.*;
 import java.util.Set;
-// класс, где создается таблица Flat, ее столбцы и связи с другими таблицами БД
+/**
+ * Class for creating the table Flat
+ */
 @Entity
 @Table
 public class Flat {

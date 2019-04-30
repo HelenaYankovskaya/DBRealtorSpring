@@ -3,7 +3,9 @@ package com.it.app.model;
 import javax.persistence.*;
 import java.util.Set;
 
-// класс, где создается таблица Realtor, ее столбцы и связи с другими таблицами БД
+/**
+ * Class for creating the table Realtor
+ */
 @Entity
 @Table
 public class Realtor {

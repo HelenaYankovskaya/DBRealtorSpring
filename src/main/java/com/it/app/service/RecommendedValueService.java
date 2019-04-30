@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface RecommendedValueService {
 
-    RecommendedValue addRecommendedValue(RecommendedValue recommendedValue);
+    List<RecommendedValue> findAll();
 
-    void delete(long id);
+    RecommendedValue findById(Long id);
 
-    RecommendedValue getByName(String name);
+    RecommendedValue save(RecommendedValue recommendedValue);
 
-    RecommendedValue editRecommendedValue(RecommendedValue recommendedValue);
+    RecommendedValue update(RecommendedValue recommendedValue);
 
-    List<RecommendedValue> getAll();
+    void delete(RecommendedValue recommendedValue);
+
+    void deleteById(Long id);;
 }

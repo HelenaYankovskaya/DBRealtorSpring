@@ -1,13 +1,18 @@
 package com.it.app.service;
 
 import com.it.app.model.Contracts;
-
 import java.util.List;
 
 public interface ContractsServise {
-    Contracts addContracts(Contracts contracts);
-    void delete(long id);
-    Contracts getByName(String name);
-    Contracts editContracts(Contracts contracts);
-    List<Contracts> getAll();
+    List<Contracts> findAll();
+
+    Contracts findById(Long id);
+
+    Contracts save(Contracts contracts);
+
+    Contracts update(Contracts contracts);
+
+    void delete(Contracts contracts);
+
+    void deleteById(Long id);
 }

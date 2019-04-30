@@ -1,17 +1,20 @@
 package com.it.app.service;
 
 import com.it.app.model.Client;
+import com.it.app.model.User;
 
 import java.util.List;
 
 public interface ClientService {
-    Client addClient(Client client);
+    List<Client> findAll();
 
-    void delete(long id);
+    Client findById(Long id);
 
-    Client getByName(String name);
+    Client save(Client client);
 
-    Client editClient(Client client);
+    Client update(Client client);
 
-    List<Client> getAll();
+    void delete(Client client);
+
+    void deleteById(Long id);
 }

@@ -1,19 +1,19 @@
 package com.it.app.service;
 
 import com.it.app.model.Flat;
-import com.it.app.model.Plan;
-
 import java.util.List;
 
 public interface FlatService {
 
-    Flat addFlat(Flat flat);
+    List<Flat> findAll();
 
-    void delete(long id);
+    Flat findById(Long id);
 
-    Flat getByName(String name);
+    Flat save(Flat flat);
 
-    Flat editFlat(Flat flat);
+    Flat update(Flat flat);
 
-    List<Flat> getAll();
+    void delete(Flat flat);
+
+    void deleteById(Long id);
 }

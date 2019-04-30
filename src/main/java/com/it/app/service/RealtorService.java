@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface RealtorService {
 
-    Realtor addRealtor(Realtor realtor);
+    List<Realtor> findAll();
 
-    void delete(long id);
+    Realtor findById(Long id);
 
-    Realtor getByName(String name);
+    Realtor save(Realtor realtor);
 
-    Realtor editRealtor(Realtor realtor);
+    Realtor update(Realtor realtor);
 
-    List<Realtor> getAll();
+    void delete(Realtor realtor);
+
+    void deleteById(Long id);
 }

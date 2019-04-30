@@ -5,10 +5,17 @@ import com.it.app.model.User;
 import java.util.List;
 
 public interface UserService {
-    User addUser(User user);
-    void delete(long id);
-    User getByName(String name);
-    User editUser(User user);
-    List<User> getAll();
+
+    List<User> findAll();
+
+    User findById(Long id);
+
+    User save(User user);
+
+    User update(User user);
+
+    void delete(User user);
+
+    void deleteById(Long id);
 }
 

@@ -6,13 +6,15 @@ import java.util.List;
 
 public interface WallsService {
 
-    Walls addWalls(Walls walls);
+    List<Walls> findAll();
 
-    void delete(long id);
+    Walls findById(Long id);
 
-    Walls getByName(String name);
+    Walls save(Walls walls);
 
-    Walls editWalls(Walls walls);
+    Walls update(Walls walls);
 
-    List<Walls> getAll();
+    void delete(Walls walls);
+
+    void deleteById(Long id);
 }

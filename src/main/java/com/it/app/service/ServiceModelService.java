@@ -6,15 +6,16 @@ import java.util.List;
 
 public interface ServiceModelService {
 
-    ServiceModel addServiceModel(ServiceModel serviceModel);
+    List<ServiceModel> findAll();
 
-    void delete(long id);
+    ServiceModel findById(Long id);
 
-    ServiceModel getByName(String name);
+    ServiceModel save(ServiceModel serviceModel);
 
-    ServiceModel editServiceModel(ServiceModel serviceModel);
+    ServiceModel update(ServiceModel serviceModel);
 
-    List<ServiceModel> getAll();
+    void delete(ServiceModel serviceModel);
 
+    void deleteById(Long id);
 
 }

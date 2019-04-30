@@ -1,40 +1,75 @@
 package com.it.app.service.Impl;
 
+import com.it.app.component.LocalizedMessageSource;
 import com.it.app.model.Plan;
 import com.it.app.repository.PlanRepository;
 import com.it.app.service.PlanService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
+@Transactional
 public class PlanServiceImpl implements PlanService {
-    @Autowired
-    PlanRepository planRepository;
 
-    @Override
-    public Plan addPlan(Plan plan) {
-        return null;
+    private final LocalizedMessageSource localizedMessageSource;
+
+    private final PlanRepository planRepository;
+
+    public PlanServiceImpl(PlanRepository planRepository, LocalizedMessageSource localizedMessageSource) {
+        this.planRepository = planRepository;
+        this.localizedMessageSource = localizedMessageSource;
     }
 
     @Override
-    public void delete(long id) {
-
+    public List<Plan> findAll() {
+        return planRepository.findAll();
     }
 
     @Override
-    public Plan getByName(String name) {
-        return null;
+    public Plan findById(Long id) {
+        return planRepository.findById(id).orElseThrow(() -> new RuntimeException(localizedMessageSource.getMessage("error.plan.notExist", new Object[]{})));
     }
 
     @Override
-    public Plan editPlan(Plan plan) {
-        return null;
+    public Plan save(Plan plan) {
+        validate(plan.getId() != null, localizedMessageSource.getMessage("error.plan.notHaveId", new Object[]{}));
+        validate(planRepository.existsByName(plan.getPlan()), localizedMessageSource.getMessage("error.plan.name.notUnique", new Object[]{}));
+        return planRepository.saveAndFlush(plan);
     }
 
     @Override
-    public List<Plan> getAll() {
-        return null;
+    public Plan update(Plan plan) {
+        final Long planId = plan.getId();
+        validate(planId == null, localizedMessageSource.getMessage("error.plan.haveId", new Object[]{}));
+        final Plan duplicatePlan = planRepository.findByName(plan.getPlan());
+        final boolean isDuplicateExists = duplicatePlan!= null && !Objects.equals(duplicatePlan.getId(), planId);
+        validate(isDuplicateExists, localizedMessageSource.getMessage("error.plan.name.notUnique", new Object[]{}));
+        return planRepository.saveAndFlush(plan);
+    }
+
+    @Override
+    public void delete(Plan plan) {
+        validate(plan.getId() == null, localizedMessageSource.getMessage("error.plan.haveId", new Object[]{}));
+        planRepository.delete(plan);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        planRepository.deleteById(id);
+    }
+
+    private Plan saveAndFlush(Plan plan) {
+        //   validate(realtor.getPassport() == null || realtor.getServices() == null, localizedMessageSource.getMessage("error.realtor.passport.isNull", new Object[]{}));
+        // realtor.setPassport(realtorService.      (realtor.getUserRole().getId()));
+        return planRepository.saveAndFlush(plan);
+    }
+
+    private void validate(boolean expression, String errorMessage) {
+        if (expression) {
+            throw new RuntimeException(errorMessage);
+        }
     }
 }
