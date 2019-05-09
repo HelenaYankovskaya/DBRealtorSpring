@@ -45,7 +45,7 @@ public class Flat {
     @Size(min = 3, max = 10, message = "{flat.value.size}")
     private Long value;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idPlan")
     @NotNull(message = "{flat.plan.notEmpty}")
     private Plan plan;
