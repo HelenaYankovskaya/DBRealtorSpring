@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RecommendedValueRepository extends JpaRepository<RecommendedValue, Long> {
 
-    boolean existsByValue(Long recommendedValue);
+    boolean existsByRecommendedValue(Long recommendedValue);
 
-    RecommendedValue findByValue(Long recommendedValue);
+    RecommendedValue findByRecommendedValue(Long recommendedValue);
 
 }

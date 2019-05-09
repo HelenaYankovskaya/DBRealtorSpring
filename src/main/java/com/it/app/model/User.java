@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
  */
 
 @Entity
-@Table(name = "USER")
+@Table
 public class User {
 
     @Id
@@ -29,12 +29,19 @@ public class User {
     @Size(min = 3, max = 50, message = "{user.name.size}")
     private String name;
 
-
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{user.passport.notNull}")
+    @NotEmpty(message = "{user.passport.notEmpty}")
+    @Size(min = 3, max = 20, message = "{user.passport.size}")
     private String password;
 
     @ManyToOne
     @JoinColumn(name = "UserRoleId", nullable = false)
+    @NotNull(message = "{user.role.notNull}")
     private UserRole userRole;
+
+    public User() {
+    }
 
     public Long getId() {
         return id;
@@ -84,16 +91,5 @@ public class User {
         this.password = password;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", clients=" + clients +
-                ", realtor=" + realtor +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", userRole=" + userRole +
-                '}';
-    }
 }
 

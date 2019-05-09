@@ -7,10 +7,7 @@ import com.it.app.service.UserRoleService;
 import org.dozer.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,7 +16,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/roles")
-public class RoleController {
+public class UserRoleController {
 
     private final Mapper mapper;
 
@@ -27,7 +24,7 @@ public class RoleController {
 
     private final LocalizedMessageSource localizedMessageSource;
 
-    public RoleController(Mapper mapper, UserRoleService userRoleService, LocalizedMessageSource localizedMessageSource) {
+    public UserRoleController(Mapper mapper, UserRoleService userRoleService, LocalizedMessageSource localizedMessageSource) {
         this.mapper = mapper;
         this.userRoleService = userRoleService;
         this.localizedMessageSource = localizedMessageSource;
@@ -50,6 +47,7 @@ public class RoleController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserRoleDto> save(@Valid @RequestBody UserRoleDto userRoleDto) {
         userRoleDto.setId(null);
         final UserRoleDto responseRoleDto = mapper.map(userRoleService.save(mapper.map(userRoleDto, UserRole.class)), UserRoleDto.class);
@@ -57,6 +55,7 @@ public class RoleController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<UserRoleDto> update(@Valid @RequestBody UserRoleDto userRoleDto, @PathVariable Long id) {
         if (!Objects.equals(id, userRoleDto.getId())) {
             throw new RuntimeException(localizedMessageSource.getMessage("controller.role.unexpectedId", new Object[]{}));

@@ -1,6 +1,9 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -13,15 +16,26 @@ public class ServiceModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{serviceModel.serviceModel.notNull}")
+    @NotEmpty(message = "{serviceModel.serviceModel.notEmpty}")
+    @Size(min = 3, max = 50, message = "{serviceModel.serviceModel.size}")
     private String serviceModel;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{serviceModel.serviceValue.notNull}")
+    @NotEmpty(message = "{serviceModel.serviceValue.notEmpty}")
+    @Size(min = 3, max = 10, message = "{serviceModel.serviceValue.size}")
     private Long serviceValue;
 
     @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinTable(name = "Service_Client",
+    @JoinTable(name = "ServiceModel_has_Client",
             joinColumns = {@JoinColumn(name = "id_service")},
             inverseJoinColumns = {@JoinColumn(name = "client_id")})
     private Set<Client> client;
+
+    public ServiceModel() {
+    }
 
     public Long getId() {
         return id;

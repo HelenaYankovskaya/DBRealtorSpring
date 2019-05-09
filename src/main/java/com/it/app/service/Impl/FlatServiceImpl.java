@@ -17,9 +17,13 @@ public class FlatServiceImpl implements FlatService {
 
     private final FlatRepository flatRepository;
 
-    public FlatServiceImpl(LocalizedMessageSource localizedMessageSource, FlatRepository flatRepository) {
+    private final RepairService repairService;
+
+
+    public FlatServiceImpl(LocalizedMessageSource localizedMessageSource, FlatRepository flatRepository, RepairService repairService) {
         this.localizedMessageSource = localizedMessageSource;
         this.flatRepository = flatRepository;
+        this.repairService = repairService;
     }
 
     @Override
@@ -27,15 +31,19 @@ public class FlatServiceImpl implements FlatService {
         return flatRepository.findAll();
     }
 
+    public List<Flat> findAllByNumberRooms(Long numberRooms) {
+        return flatRepository.findAllByNumberRooms(numberRooms);
+    }
+
     @Override
     public Flat findById(Long id) {
-        return flatRepository.findById(id).orElseThrow(() -> new RuntimeException(localizedMessageSource.getMessage("error.user.notExist", new Object[]{})));
+        return flatRepository.findById(id).orElseThrow(() -> new RuntimeException(localizedMessageSource.getMessage("error.flat.notExist", new Object[]{})));
     }
 
     @Override
     public Flat save(Flat flat) {
         validate(flat.getId() != null, localizedMessageSource.getMessage("error.flat.notHaveId", new Object[]{}));
-        validate(flatRepository.existsByAdress(flat.getAdress()), localizedMessageSource.getMessage("error.flat.adress.notUnique", new Object[]{}));
+        validate(flatRepository.existsByAddress(flat.getAddress()), localizedMessageSource.getMessage("error.flat.address.notUnique", new Object[]{}));
         return saveAndFlush(flat);
     }
 
@@ -43,9 +51,9 @@ public class FlatServiceImpl implements FlatService {
     public Flat update(Flat flat) {
         final Long id = flat.getId();
         validate(id == null, localizedMessageSource.getMessage("error.flat.haveId", new Object[]{}));
-        final Flat duplicateFlat = flatRepository.findByAdress(flat.getAdress());
+        final Flat duplicateFlat = flatRepository.findByAddress(flat.getAddress());
         final boolean isDuplicateExists = duplicateFlat != null && !Objects.equals(duplicateFlat.getId(), id);
-        validate(isDuplicateExists, localizedMessageSource.getMessage("error.flat.adress.notUnique", new Object[]{}));
+        validate(isDuplicateExists, localizedMessageSource.getMessage("error.flat.address.notUnique", new Object[]{}));
         return saveAndFlush(flat);
     }
 
@@ -61,8 +69,9 @@ public class FlatServiceImpl implements FlatService {
     }
 
     private Flat saveAndFlush(Flat flat) {
-      //  validate(flat.getUserRole() == null || user.getUserRole().getId() == null, localizedMessageSource.getMessage("error.user.role.isNull", new Object[]{}));
-       // user.setUserRole(userRoleService.findById(user.getUserRole().getId()));
+        validate(flat.getRepair() == null || flat.getRepair().getId() == null, localizedMessageSource.getMessage("error.flat.repair.isNull", new Object[]{}));
+        flat.setRepair(repairService.findById(flat.getRepair().getId()));
+
         return flatRepository.saveAndFlush(flat);
     }
 

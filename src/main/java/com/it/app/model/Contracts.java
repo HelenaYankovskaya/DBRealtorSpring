@@ -1,6 +1,9 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 /**
  * Class for creating the table Contracts
@@ -12,15 +15,24 @@ public class Contracts {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "realtor_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idRealtor")
+    @NotNull(message = "{contracts.realtor.notNull}")
     private Realtor realtor;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{contracts.data.notNull}")
+    @NotEmpty(message = "{contracts.data.notEmpty}")
+    @Size(min = 3, max = 10, message = "{contracts.data.size}")
     private String data;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "flat_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idFlat")
+    @NotNull(message = "{contracts.flat.notNull}")
     private Flat flat;
+
+    public Contracts() {
+    }
 
     public Flat getFlat() {
         return flat;

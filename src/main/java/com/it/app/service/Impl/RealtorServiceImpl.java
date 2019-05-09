@@ -4,6 +4,7 @@ import com.it.app.component.LocalizedMessageSource;
 import com.it.app.model.Realtor;
 import com.it.app.repository.RealtorRepository;
 import com.it.app.service.RealtorService;
+import com.it.app.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,16 +17,19 @@ public class RealtorServiceImpl implements RealtorService {
 
     private final LocalizedMessageSource localizedMessageSource;
 
+    private final UserService userService;
+
     private final RealtorRepository realtorRepository;
 
-    public RealtorServiceImpl(LocalizedMessageSource localizedMessageSource, RealtorRepository realtorRepository) {
+    public RealtorServiceImpl(LocalizedMessageSource localizedMessageSource, UserService userService, RealtorRepository realtorRepository) {
         this.localizedMessageSource = localizedMessageSource;
+        this.userService = userService;
         this.realtorRepository = realtorRepository;
     }
 
     @Override
     public List<Realtor> findAll() {
-        return realtorRepository.findAll();
+        return  realtorRepository.findAll();
     }
 
     @Override
@@ -35,7 +39,7 @@ public class RealtorServiceImpl implements RealtorService {
 
     public Realtor save(Realtor realtor) {
         validate(realtor.getId() != null, localizedMessageSource.getMessage("error.realtor.notHaveId", new Object[]{}));
-        validate(realtorRepository.existsByPost(), localizedMessageSource.getMessage("error.realtor.post.notUnique", new Object[]{}));
+        validate(realtorRepository.existsByPost(realtor.getPost()), localizedMessageSource.getMessage("error.realtor.post.notUnique", new Object[]{}));
         return saveAndFlush(realtor);
     }
 
@@ -44,8 +48,8 @@ public class RealtorServiceImpl implements RealtorService {
         final Long id = realtor.getId();
         validate(id == null, localizedMessageSource.getMessage("error.realtor.haveId", new Object[]{}));
         final Realtor duplicateRealtor = realtorRepository.findByPost(realtor.getPost());
-        final boolean isDuplicateExists = duplicateRealtor != null && !Objects.equals(duplicateRealtor.getId(), id);
-        validate(isDuplicateExists, localizedMessageSource.getMessage("error.realtor.name.notUnique", new Object[]{}));
+        final boolean isDuplicateExists = duplicateRealtor != null && !Objects.equals(duplicateRealtor.getId(), id );
+        validate(isDuplicateExists, localizedMessageSource.getMessage("error.realtor.post.notUnique", new Object[]{}));
         return saveAndFlush(realtor);
     }
 
@@ -61,8 +65,8 @@ public class RealtorServiceImpl implements RealtorService {
     }
 
     private Realtor saveAndFlush(Realtor realtor) {
-        //   validate(realtor.getPassport() == null || realtor.getServices() == null, localizedMessageSource.getMessage("error.realtor.passport.isNull", new Object[]{}));
-        // realtor.setPassport(realtorService.      (realtor.getUserRole().getId()));
+        validate(realtor.getUser() == null || realtor.getUser().getId() == null, localizedMessageSource.getMessage("error.realtor.user.isNull", new Object[]{}));
+        realtor.setUser(userService.findById(realtor.getUser().getId()));
         return realtorRepository.saveAndFlush(realtor);
     }
 

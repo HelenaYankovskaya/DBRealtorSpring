@@ -10,7 +10,7 @@ import java.util.Set;
  * Class for creating the table UserRole
  */
 @Entity
-@Table(name = "USER_ROLE")
+@Table
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,20 +20,10 @@ public class UserRole {
     @NotNull(message = "{role.name.notNull}")
     @NotEmpty(message = "{role.name.notEmpty}")
     @Size(min = 3, max = 50, message = "{role.name.size}")
-    private String role;
-
-    @OneToMany(mappedBy = "userRole")
-   private Set<User> users;
+    private String userRole;
 
     public UserRole() {
-
     }
-
-    public UserRole(Long id, String userRole) {
-        this.id = id;
-        this.role = userRole;
-    }
-
 
     public Long getId() {
         return id;
@@ -43,12 +33,12 @@ public class UserRole {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getUserRole() {
+        return userRole;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
     }
 
 }

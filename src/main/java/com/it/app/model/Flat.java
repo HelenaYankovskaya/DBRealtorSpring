@@ -1,7 +1,12 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.math.BigDecimal;
 import java.util.Set;
+
 /**
  * Class for creating the table Flat
  */
@@ -12,31 +17,55 @@ public class Flat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "flat",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "flat", fetch = FetchType.EAGER)
     private Set<Contracts> contracts;
 
-    private String adress;
-    private Double square;
-    private Boolean isBalcon;
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{flat.address.notNull}")
+    @NotEmpty(message = "{flat.address.notEmpty}")
+    @Size(min = 3, max = 50, message = "{flat.address.size}")
+    private String address;
+
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{flat.square.notNull}")
+    @NotEmpty(message = "{flat.square.notEmpty}")
+    @Size(min = 3, max = 10, message = "{flat.square.size}")
+    private BigDecimal square;
+
+    @NotNull(message = "{flat.isBalcony.notNull}")
+    @NotEmpty(message = "{flat.isBalcony.notEmpty}")
+    private Boolean isBalcony;
+
+    @NotNull(message = "{flat.numberRooms.notNull}")
+    @NotEmpty(message = "{flat.numberRooms.notEmpty}")
     private Long numberRooms;
+
+    @NotNull(message = "{flat.value.notNull}")
+    @NotEmpty(message = "{flat.value.notEmpty}")
+    @Size(min = 3, max = 10, message = "{flat.value.size}")
     private Long value;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "plan_id")
+    @JoinColumn(name = "idPlan")
+    @NotNull(message = "{flat.plan.notEmpty}")
     private Plan plan;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "repair_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idRepair")
+    @NotNull(message = "{flat.repair.notEmpty}")
     private Repair repair;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "walls_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "idWalls")
+    @NotNull(message = "{flat.walls.notEmpty}")
     private Walls walls;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumns(@JoinColumn(name = "recommendedValue_id"))
+    @JoinColumns(@JoinColumn(name = "idRecommendedValue"))
     private RecommendedValue recommendedValue;
 
+    public Flat() {
+    }
 
     public Long getId() {
         return id;
@@ -54,28 +83,28 @@ public class Flat {
         this.contracts = contracts;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public Double getSquare() {
+    public Boolean getBalcony() {
+        return isBalcony;
+    }
+
+    public void setBalcony(Boolean balcony) {
+        isBalcony = balcony;
+    }
+
+    public BigDecimal getSquare() {
         return square;
     }
 
-    public void setSquare(Double square) {
+    public void setSquare(BigDecimal square) {
         this.square = square;
-    }
-
-    public Boolean getBalcon() {
-        return isBalcon;
-    }
-
-    public void setBalcon(Boolean balcon) {
-        isBalcon = balcon;
     }
 
     public Long getNumberRooms() {
@@ -98,7 +127,7 @@ public class Flat {
         return plan;
     }
 
-    public void setPlan(Plan planing) {
+    public void setPlan(Plan plan) {
         this.plan = plan;
     }
 
@@ -131,9 +160,9 @@ public class Flat {
         return "Flat{" +
                 "id=" + id +
                 ", contracts=" + contracts +
-                ", adress='" + adress + '\'' +
+                ", address='" + address + '\'' +
                 ", square=" + square +
-                ", isBalcon=" + isBalcon +
+                ", isBalcony=" + isBalcony +
                 ", numberRooms=" + numberRooms +
                 ", value=" + value +
                 ", plan=" + plan +

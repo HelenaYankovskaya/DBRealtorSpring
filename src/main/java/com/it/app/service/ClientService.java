@@ -1,11 +1,11 @@
 package com.it.app.service;
 
 import com.it.app.model.Client;
-import com.it.app.model.User;
 
 import java.util.List;
 
 public interface ClientService {
+
     List<Client> findAll();
 
     Client findById(Long id);

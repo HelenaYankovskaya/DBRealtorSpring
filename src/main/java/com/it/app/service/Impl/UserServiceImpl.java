@@ -51,9 +51,9 @@ public class UserServiceImpl implements UserService {
         final User duplicateUser = userRepository.findByName(user.getName());
         final boolean isDuplicateExists = duplicateUser != null && !Objects.equals(duplicateUser.getId(), id);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.user.name.notUnique", new Object[]{}));
+        findById(id);
         return saveAndFlush(user);
     }
-
 
     @Override
     public void delete(User user) {

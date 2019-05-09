@@ -18,6 +18,9 @@ public class RecommendedValue {
     @OneToOne(mappedBy = "recommendedValue")
     private Flat flats;
 
+    public RecommendedValue() {
+    }
+
     public Long getId() {
         return id;
     }

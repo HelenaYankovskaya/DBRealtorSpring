@@ -36,7 +36,7 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public Repair save(Repair repair) {
         validate(repair.getId() != null, localizedMessageSource.getMessage("error.repair.notHaveId", new Object[]{}));
-        validate(repairRepository.existsByName(repair.getRepair()), localizedMessageSource.getMessage("error.repair.name.notUnique", new Object[]{}));
+        validate(repairRepository.existsByRepair(repair.getRepair()), localizedMessageSource.getMessage("error.repair.name.notUnique", new Object[]{}));
         return repairRepository.saveAndFlush(repair);
     }
 
@@ -44,7 +44,7 @@ public class RepairServiceImpl implements RepairService {
     public Repair update(Repair repair) {
         final Long repairId = repair.getId();
         validate(repairId == null, localizedMessageSource.getMessage("error.repair.haveId", new Object[]{}));
-        final Repair duplicateRepair = repairRepository.findByName(repair.getRepair());
+        final Repair duplicateRepair = repairRepository.findByRepair(repair.getRepair());
         final boolean isDuplicateExists = duplicateRepair!= null && !Objects.equals(duplicateRepair.getId(), repairId);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.repair.name.notUnique", new Object[]{}));
         return repairRepository.saveAndFlush(repair);

@@ -3,6 +3,7 @@ package com.it.app.service.Impl;
 import com.it.app.component.LocalizedMessageSource;
 import com.it.app.model.ServiceModel;
 import com.it.app.repository.ServiceModelRepository;
+import com.it.app.service.ClientService;
 import com.it.app.service.ServiceModelService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +36,7 @@ public class ServiceModelServiceImpl implements ServiceModelService {
 
     public ServiceModel save(ServiceModel serviceModel) {
         validate(serviceModel.getId() != null, localizedMessageSource.getMessage("error.serviceModel.notHaveId", new Object[]{}));
-        validate(serviceModelRepository.existsByName(serviceModel.getServiceModel()), localizedMessageSource.getMessage("error.serviceModel.name.notUnique", new Object[]{}));
+        validate(serviceModelRepository.existsByServiceModel(serviceModel.getServiceModel()), localizedMessageSource.getMessage("error.serviceModel.name.notUnique", new Object[]{}));
         return saveAndFlush(serviceModel);
     }
 
@@ -43,7 +44,7 @@ public class ServiceModelServiceImpl implements ServiceModelService {
     public ServiceModel update(ServiceModel serviceModel) {
         final Long id = serviceModel.getId();
         validate(id == null, localizedMessageSource.getMessage("error.serviceModel.haveId", new Object[]{}));
-        final ServiceModel duplicateServiceModel = serviceModelRepository.findByName(serviceModel.getServiceModel());
+        final ServiceModel duplicateServiceModel = serviceModelRepository.findByServiceModel(serviceModel.getServiceModel());
         final boolean isDuplicateExists = duplicateServiceModel != null && !Objects.equals(duplicateServiceModel.getId(), id);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.serviceModel.name.notUnique", new Object[]{}));
         return saveAndFlush(serviceModel);
@@ -61,8 +62,6 @@ public class ServiceModelServiceImpl implements ServiceModelService {
     }
 
     private ServiceModel saveAndFlush(ServiceModel serviceModel) {
-        //   validate(serviceModel.getPassport() == null || serviceModel.getServices() == null, localizedMessageSource.getMessage("error.serviceModel.passport.isNull", new Object[]{}));
-        // serviceModel.setPassport(serviceModelService.      (serviceModel.getUserRole().getId()));
         return serviceModelRepository.saveAndFlush(serviceModel);
     }
 

@@ -7,6 +7,8 @@ public interface FlatService {
 
     List<Flat> findAll();
 
+    List<Flat> findAllByNumberRooms(Long numberRooms);
+
     Flat findById(Long id);
 
     Flat save(Flat flat);

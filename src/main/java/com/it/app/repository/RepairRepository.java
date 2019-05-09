@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RepairRepository extends JpaRepository<Repair, Long> {
 
-    boolean existsByName(String repair);
+    boolean existsByRepair(String repair);
 
-    Repair findByName(String repair);
+    Repair findByRepair(String repair);
 
 }

@@ -1,6 +1,5 @@
 package com.it.app.service;
 
-import com.it.app.model.User;
 import com.it.app.model.UserRole;
 
 import java.util.List;

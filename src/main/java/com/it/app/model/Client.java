@@ -1,6 +1,9 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -13,15 +16,22 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{client.passport.notNull}")
+    @NotEmpty(message = "{client.passport.notEmpty}")
+    @Size(min = 3, max = 10, message = "{client.passport.size}")
     private String passport;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumns(@JoinColumn(name = "user_id"))
+    @JoinColumns(@JoinColumn(name = "userId"))
+    @NotNull(message = "{client.user.notNull}")
     private User user;
 
     @ManyToMany(mappedBy = "client", fetch = FetchType.EAGER)
     private Set<ServiceModel> services;
 
+    public Client() {
+    }
 
     public Long getId() {
         return id;

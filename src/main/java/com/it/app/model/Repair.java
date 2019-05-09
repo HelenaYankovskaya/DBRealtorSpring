@@ -1,6 +1,9 @@
 package com.it.app.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
 /**
@@ -16,7 +19,15 @@ public class Repair {
     @OneToMany(mappedBy = "repair")
     private Set<Flat> flats;
 
+    @Column(unique = true, nullable = false)
+    @NotNull(message = "{repair.repair.notNull}")
+    @NotEmpty(message = "{repair.repair.notEmpty}")
+    @Size(min = 3, max = 50, message = "{repair.repair.size}")
     private String repair;
+
+    public Repair() {
+    }
+
 
     public Long getId() {
         return id;

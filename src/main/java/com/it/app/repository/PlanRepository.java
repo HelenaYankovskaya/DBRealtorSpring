@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PlanRepository extends JpaRepository<Plan, Long> {
 
-    boolean existsByName(String plan);
+    boolean existsByPlan(String plan);
 
-    Plan findByName(String plan);
+    Plan findByPlan(String plan);
 
 }

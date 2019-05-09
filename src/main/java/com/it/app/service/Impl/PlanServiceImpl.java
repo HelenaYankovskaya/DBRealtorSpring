@@ -36,7 +36,7 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Plan save(Plan plan) {
         validate(plan.getId() != null, localizedMessageSource.getMessage("error.plan.notHaveId", new Object[]{}));
-        validate(planRepository.existsByName(plan.getPlan()), localizedMessageSource.getMessage("error.plan.name.notUnique", new Object[]{}));
+        validate(planRepository.existsByPlan(plan.getPlan()), localizedMessageSource.getMessage("error.plan.name.notUnique", new Object[]{}));
         return planRepository.saveAndFlush(plan);
     }
 
@@ -44,7 +44,7 @@ public class PlanServiceImpl implements PlanService {
     public Plan update(Plan plan) {
         final Long planId = plan.getId();
         validate(planId == null, localizedMessageSource.getMessage("error.plan.haveId", new Object[]{}));
-        final Plan duplicatePlan = planRepository.findByName(plan.getPlan());
+        final Plan duplicatePlan = planRepository.findByPlan(plan.getPlan());
         final boolean isDuplicateExists = duplicatePlan!= null && !Objects.equals(duplicatePlan.getId(), planId);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.plan.name.notUnique", new Object[]{}));
         return planRepository.saveAndFlush(plan);
@@ -61,11 +61,6 @@ public class PlanServiceImpl implements PlanService {
         planRepository.deleteById(id);
     }
 
-    private Plan saveAndFlush(Plan plan) {
-        //   validate(realtor.getPassport() == null || realtor.getServices() == null, localizedMessageSource.getMessage("error.realtor.passport.isNull", new Object[]{}));
-        // realtor.setPassport(realtorService.      (realtor.getUserRole().getId()));
-        return planRepository.saveAndFlush(plan);
-    }
 
     private void validate(boolean expression, String errorMessage) {
         if (expression) {

@@ -4,6 +4,7 @@ import com.it.app.component.LocalizedMessageSource;
 import com.it.app.model.Client;
 import com.it.app.repository.ClientRepository;
 import com.it.app.service.ClientService;
+import com.it.app.service.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,13 @@ public class ClientServiceImpl implements ClientService {
 
     private final LocalizedMessageSource localizedMessageSource;
 
+    private  final UserService userService;
+
     private final ClientRepository clientRepository;
 
-    public ClientServiceImpl(LocalizedMessageSource localizedMessageSource, ClientRepository clientRepository) {
+    public ClientServiceImpl(LocalizedMessageSource localizedMessageSource, UserService userService, ClientRepository clientRepository) {
         this.localizedMessageSource = localizedMessageSource;
+        this.userService = userService;
         this.clientRepository = clientRepository;
     }
 
@@ -35,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
     public Client save(Client client) {
         validate(client.getId() != null, localizedMessageSource.getMessage("error.client.notHaveId", new Object[]{}));
-        validate(clientRepository.existsByPassport(), localizedMessageSource.getMessage("error.client.passport.notUnique", new Object[]{}));
+        validate(clientRepository.existsByPassport(client.getPassport()), localizedMessageSource.getMessage("error.client.passport.notUnique", new Object[]{}));
         return saveAndFlush(client);
     }
 
@@ -45,7 +49,7 @@ public class ClientServiceImpl implements ClientService {
         validate(id == null, localizedMessageSource.getMessage("error.client.haveId", new Object[]{}));
         final Client duplicateClient = clientRepository.findByPassport(client.getPassport());
         final boolean isDuplicateExists = duplicateClient != null && !Objects.equals(duplicateClient.getId(), id);
-        validate(isDuplicateExists, localizedMessageSource.getMessage("error.client.name.notUnique", new Object[]{}));
+        validate(isDuplicateExists, localizedMessageSource.getMessage("error.client.passport.notUnique", new Object[]{}));
         return saveAndFlush(client);
     }
 
@@ -61,8 +65,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     private Client saveAndFlush(Client client) {
-     //   validate(client.getPassport() == null || client.getServices() == null, localizedMessageSource.getMessage("error.client.passport.isNull", new Object[]{}));
-      // client.setPassport(ClientService.      (client.getUserRole().getId()));
+        validate(client.getUser() == null || client.getUser().getId() == null, localizedMessageSource.getMessage("error.client.user.isNull", new Object[]{}));
+        client.setUser(userService.findById(client.getUser().getId()));
         return clientRepository.saveAndFlush(client);
     }
 

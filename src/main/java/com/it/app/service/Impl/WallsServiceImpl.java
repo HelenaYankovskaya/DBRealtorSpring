@@ -36,7 +36,7 @@ public class WallsServiceImpl implements WallsService {
     @Override
     public Walls save(Walls walls) {
         validate(walls.getId() != null, localizedMessageSource.getMessage("error.walls.notHaveId", new Object[]{}));
-        validate(wallsRepository.existsByName(walls.getWalls()), localizedMessageSource.getMessage("error.walls.name.notUnique", new Object[]{}));
+        validate(wallsRepository.existsByWalls(walls.getWalls()), localizedMessageSource.getMessage("error.walls.name.notUnique", new Object[]{}));
         return wallsRepository.saveAndFlush(walls);
     }
 
@@ -44,7 +44,7 @@ public class WallsServiceImpl implements WallsService {
     public Walls update(Walls walls) {
         final Long wallsId = walls.getId();
         validate(wallsId == null, localizedMessageSource.getMessage("error.walls.haveId", new Object[]{}));
-        final Walls duplicateWalls = wallsRepository.findByName(walls.getWalls());
+        final Walls duplicateWalls = wallsRepository.findByWalls(walls.getWalls());
         final boolean isDuplicateExists = duplicateWalls!= null && !Objects.equals(duplicateWalls.getId(), wallsId);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.walls.name.notUnique", new Object[]{}));
         return wallsRepository.saveAndFlush(walls);

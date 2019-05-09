@@ -19,7 +19,7 @@
         <mysql.version>8.0.13</mysql.version>
         <javax.servlet>4.0.1</javax.servlet>
         <jackson.core>2.9.8</jackson.core>
-        <hibernate.validator>6.0.16.Final</hibernate.validator>
+        <hibernate.validator>6.1.0.Alpha4</hibernate.validator>
         <dozer>5.5.1</dozer>
         <logback>1.2.3</logback>
     </properties>
@@ -86,10 +86,21 @@
             <artifactId>logback-classic</artifactId>
             <version>${logback}</version>
         </dependency>
+
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-Xlint</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

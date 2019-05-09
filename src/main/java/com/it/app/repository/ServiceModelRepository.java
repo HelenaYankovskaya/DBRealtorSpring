@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ServiceModelRepository extends JpaRepository<ServiceModel, Long> {
 
-    boolean existsByName(String serviceModel);
+    boolean existsByServiceModel(String serviceModel);
 
-    ServiceModel findByName(String serviceModel);
+    ServiceModel findByServiceModel(String serviceModel);
 
 }

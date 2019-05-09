@@ -3,7 +3,8 @@ package com.it.app.service;
 import com.it.app.model.Contracts;
 import java.util.List;
 
-public interface ContractsServise {
+public interface ContractsService {
+
     List<Contracts> findAll();
 
     Contracts findById(Long id);
