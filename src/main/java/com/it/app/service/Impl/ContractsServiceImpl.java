@@ -52,6 +52,10 @@ public class ContractsServiceImpl implements ContractsService {
     public Contracts update(Contracts contracts) {
         final Long id = contracts.getId();
         validate(id == null, localizedMessageSource.getMessage("error.contracts.haveId", new Object[]{}));
+        final Contracts duplicateContracts = contractsRepository.findByData(contracts.getData());
+        final boolean isDuplicateExists = duplicateContracts != null && !Objects.equals(duplicateContracts.getId(), id);
+        validate(isDuplicateExists, localizedMessageSource.getMessage("error.contracts.Data.notUnique", new Object[]{}));
+
         return saveAndFlush(contracts);
     }
 

@@ -4,7 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.math.BigDecimal;
 import java.util.Set;
 
 /**
@@ -30,7 +29,7 @@ public class Flat {
     @NotNull(message = "{flat.square.notNull}")
     @NotEmpty(message = "{flat.square.notEmpty}")
     @Size(min = 3, max = 10, message = "{flat.square.size}")
-    private BigDecimal square;
+    private Long square;
 
     @NotNull(message = "{flat.isBalcony.notNull}")
     @NotEmpty(message = "{flat.isBalcony.notEmpty}")
@@ -99,11 +98,11 @@ public class Flat {
         isBalcony = balcony;
     }
 
-    public BigDecimal getSquare() {
+    public Long getSquare() {
         return square;
     }
 
-    public void setSquare(BigDecimal square) {
+    public void setSquare(Long square) {
         this.square = square;
     }
 
