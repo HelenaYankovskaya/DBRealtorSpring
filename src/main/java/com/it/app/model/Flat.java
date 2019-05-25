@@ -16,9 +16,6 @@ public class Flat {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "flat", fetch = FetchType.EAGER)
-    private Set<Contracts> contracts;
-
     @Column(unique = true, nullable = false)
     @NotNull(message = "{flat.address.notNull}")
     @NotEmpty(message = "{flat.address.notEmpty}")
@@ -27,41 +24,42 @@ public class Flat {
 
     @Column(unique = true, nullable = false)
     @NotNull(message = "{flat.square.notNull}")
-    @NotEmpty(message = "{flat.square.notEmpty}")
-    @Size(min = 3, max = 10, message = "{flat.square.size}")
     private Long square;
 
-    @NotNull(message = "{flat.isBalcony.notNull}")
-    @NotEmpty(message = "{flat.isBalcony.notEmpty}")
     private Boolean isBalcony;
 
     @NotNull(message = "{flat.numberRooms.notNull}")
-    @NotEmpty(message = "{flat.numberRooms.notEmpty}")
     private Long numberRooms;
 
     @NotNull(message = "{flat.value.notNull}")
-    @NotEmpty(message = "{flat.value.notEmpty}")
-    @Size(min = 3, max = 10, message = "{flat.value.size}")
     private Long value;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idPlan")
-    @NotNull(message = "{flat.plan.notEmpty}")
     private Plan plan;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idRepair")
-    @NotNull(message = "{flat.repair.notEmpty}")
     private Repair repair;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idWalls")
-    @NotNull(message = "{flat.walls.notEmpty}")
     private Walls walls;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumns(@JoinColumn(name = "idRecommendedValue"))
     private RecommendedValue recommendedValue;
+
+    @OneToMany(mappedBy = "flat")
+    private Set<Contracts> contracts;
+
+    public Set<Contracts> getContracts() {
+        return contracts;
+    }
+
+    public void setContracts(Set<Contracts> contracts) {
+        this.contracts = contracts;
+    }
 
     public Flat() {
     }
@@ -72,14 +70,6 @@ public class Flat {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Set<Contracts> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(Set<Contracts> contracts) {
-        this.contracts = contracts;
     }
 
     public String getAddress() {
@@ -154,20 +144,4 @@ public class Flat {
         this.recommendedValue = recommendedValue;
     }
 
-    @Override
-    public String toString() {
-        return "Flat{" +
-                "id=" + id +
-                ", contracts=" + contracts +
-                ", address='" + address + '\'' +
-                ", square=" + square +
-                ", isBalcony=" + isBalcony +
-                ", numberRooms=" + numberRooms +
-                ", value=" + value +
-                ", plan=" + plan +
-                ", repair=" + repair +
-                ", walls=" + walls +
-                ", recommendedValue=" + recommendedValue +
-                '}';
-    }
 }

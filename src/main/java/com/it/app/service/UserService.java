@@ -4,11 +4,16 @@ import com.it.app.model.User;
 
 import java.util.List;
 
+/**
+ * Service for User entity
+ */
 public interface UserService {
 
     List<User> findAll();
 
     User findById(Long id);
+
+    User findByUserName(String username);
 
     User save(User user);
 

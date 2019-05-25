@@ -4,6 +4,9 @@ import com.it.app.model.ServiceModel;
 
 import java.util.List;
 
+/**
+ * Service for ServiceModel entity
+ */
 public interface ServiceModelService {
 
     List<ServiceModel> findAll();

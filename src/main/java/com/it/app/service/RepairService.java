@@ -4,6 +4,9 @@ import com.it.app.model.Repair;
 
 import java.util.List;
 
+/**
+ * Service for Repair entity
+ */
 public interface RepairService {
 
     List<Repair> findAll();

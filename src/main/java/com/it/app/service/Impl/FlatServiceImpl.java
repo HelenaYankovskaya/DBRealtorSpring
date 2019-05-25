@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Class, which implements methods of FlatService interface
+ */
 @Service
 @Transactional
 public class FlatServiceImpl implements FlatService {
@@ -19,11 +21,17 @@ public class FlatServiceImpl implements FlatService {
 
     private final RepairService repairService;
 
+    private final PlanService planService;
 
-    public FlatServiceImpl(LocalizedMessageSource localizedMessageSource, FlatRepository flatRepository, RepairService repairService) {
+    private final  WallsService wallsService;
+
+
+    public FlatServiceImpl(LocalizedMessageSource localizedMessageSource, FlatRepository flatRepository, RepairService repairService, PlanService planService, WallsService wallsService) {
         this.localizedMessageSource = localizedMessageSource;
         this.flatRepository = flatRepository;
         this.repairService = repairService;
+        this.planService = planService;
+        this.wallsService = wallsService;
     }
 
     @Override
@@ -31,8 +39,13 @@ public class FlatServiceImpl implements FlatService {
         return flatRepository.findAll();
     }
 
+    @Override
     public List<Flat> findAllByNumberRooms(Long numberRooms) {
         return flatRepository.findAllByNumberRooms(numberRooms);
+    }
+
+    public List<Flat> findAllByValueLessThan(Long value) {
+        return flatRepository.findAllByValueLessThan(value);
     }
 
     @Override
@@ -69,9 +82,12 @@ public class FlatServiceImpl implements FlatService {
     }
 
     private Flat saveAndFlush(Flat flat) {
+        validate(flat.getPlan() == null || flat.getPlan().getId() == null, localizedMessageSource.getMessage("error.flat.plan.isNull", new Object[]{}));
+        flat.setPlan(planService.findById(flat.getPlan().getId()));
         validate(flat.getRepair() == null || flat.getRepair().getId() == null, localizedMessageSource.getMessage("error.flat.repair.isNull", new Object[]{}));
         flat.setRepair(repairService.findById(flat.getRepair().getId()));
-
+        validate(flat.getWalls() == null || flat.getWalls().getId() == null, localizedMessageSource.getMessage("error.flat.walls.isNull", new Object[]{}));
+        flat.setWalls(wallsService.findById(flat.getWalls().getId()));
         return flatRepository.saveAndFlush(flat);
     }
 

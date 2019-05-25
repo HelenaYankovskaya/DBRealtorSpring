@@ -26,6 +26,7 @@ public class Contracts {
     @Size(min = 3, max = 10, message = "{contracts.data.size}")
     private String data;
 
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idFlat")
     @NotNull(message = "{contracts.flat.notNull}")
@@ -38,7 +39,7 @@ public class Contracts {
         return flat;
     }
 
-    public void setFlats(Flat flat) {
+    public void setFlat(Flat flat) {
         this.flat = flat;
     }
 

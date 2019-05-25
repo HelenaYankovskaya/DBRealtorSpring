@@ -4,6 +4,9 @@ import com.it.app.model.Walls;
 
 import java.util.List;
 
+/**
+ * Service for Walls entity
+ */
 public interface WallsService {
 
     List<Walls> findAll();

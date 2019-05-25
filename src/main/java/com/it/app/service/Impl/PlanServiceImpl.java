@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Class, which implements methods of PlanService interface
+ */
 @Service
 @Transactional
 public class PlanServiceImpl implements PlanService {

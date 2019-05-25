@@ -4,6 +4,9 @@ import com.it.app.model.Realtor;
 
 import java.util.List;
 
+/**
+ * Service for Realtor entity
+ */
 public interface RealtorService {
 
     List<Realtor> findAll();

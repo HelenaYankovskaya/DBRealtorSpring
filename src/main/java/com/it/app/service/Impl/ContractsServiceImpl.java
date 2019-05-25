@@ -3,8 +3,6 @@ package com.it.app.service.Impl;
 import com.it.app.component.LocalizedMessageSource;
 import com.it.app.model.Contracts;
 import com.it.app.repository.ContractsRepository;
-import com.it.app.repository.FlatRepository;
-import com.it.app.repository.RealtorRepository;
 import com.it.app.service.ContractsService;
 import com.it.app.service.FlatService;
 import com.it.app.service.RealtorService;
@@ -12,8 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Objects;
-
+/**
+ * Class, which implements methods of ContractsService interface
+ */
 
 @Service
 @Transactional
@@ -25,15 +24,23 @@ public class ContractsServiceImpl implements ContractsService {
 
     private final RealtorService realtorService;
 
-    public ContractsServiceImpl(LocalizedMessageSource localizedMessageSource, ContractsRepository contractsRepository, RealtorService realtorService) {
+    private  final FlatService flatService;
+
+    public ContractsServiceImpl(LocalizedMessageSource localizedMessageSource, ContractsRepository contractsRepository, RealtorService realtorService, FlatService flatService) {
         this.localizedMessageSource = localizedMessageSource;
         this.contractsRepository = contractsRepository;
         this.realtorService = realtorService;
+        this.flatService = flatService;
     }
 
     @Override
     public List<Contracts> findAll() {
         return contractsRepository.findAll();
+    }
+
+    @Override
+    public List<Contracts> findAllByRealtorId(Long realtorId) {
+        return contractsRepository.findAllByRealtorId(realtorId);
     }
 
     @Override
@@ -44,7 +51,6 @@ public class ContractsServiceImpl implements ContractsService {
     @Override
     public Contracts save(Contracts contracts) {
         validate(contracts.getId() != null, localizedMessageSource.getMessage("error.contract.notHaveId", new Object[]{}));
-        validate(contractsRepository.existsByData(contracts.getData()), localizedMessageSource.getMessage("error.contract.data.notUnique", new Object[]{}));
         return saveAndFlush(contracts);
     }
 
@@ -52,10 +58,6 @@ public class ContractsServiceImpl implements ContractsService {
     public Contracts update(Contracts contracts) {
         final Long id = contracts.getId();
         validate(id == null, localizedMessageSource.getMessage("error.contracts.haveId", new Object[]{}));
-        final Contracts duplicateContracts = contractsRepository.findByData(contracts.getData());
-        final boolean isDuplicateExists = duplicateContracts != null && !Objects.equals(duplicateContracts.getId(), id);
-        validate(isDuplicateExists, localizedMessageSource.getMessage("error.contracts.Data.notUnique", new Object[]{}));
-
         return saveAndFlush(contracts);
     }
 
@@ -74,6 +76,8 @@ public class ContractsServiceImpl implements ContractsService {
     private Contracts saveAndFlush(Contracts contracts) {
         validate(contracts.getRealtor() == null || contracts.getRealtor().getId() == null, localizedMessageSource.getMessage("error.contracts.realtor.isNull", new Object[]{}));
         contracts.setRealtor(realtorService.findById(contracts.getRealtor().getId()));
+        validate(contracts.getFlat() == null || contracts.getFlat().getId() == null, localizedMessageSource.getMessage("error.contracts.flat.isNull", new Object[]{}));
+        contracts.setFlat(flatService.findById(contracts.getFlat().getId()));
         return contractsRepository.saveAndFlush(contracts);
     }
 

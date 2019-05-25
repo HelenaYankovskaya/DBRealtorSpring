@@ -24,11 +24,9 @@ public class ServiceModel {
 
     @Column(unique = true, nullable = false)
     @NotNull(message = "{serviceModel.serviceValue.notNull}")
-    @NotEmpty(message = "{serviceModel.serviceValue.notEmpty}")
-    @Size(min = 3, max = 10, message = "{serviceModel.serviceValue.size}")
     private Long serviceValue;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     @JoinTable(name = "ServiceModel_has_Client",
             joinColumns = {@JoinColumn(name = "id_service")},
             inverseJoinColumns = {@JoinColumn(name = "client_id")})

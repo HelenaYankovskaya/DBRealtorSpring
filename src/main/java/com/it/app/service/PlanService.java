@@ -4,6 +4,9 @@ import com.it.app.model.Plan;
 
 import java.util.List;
 
+/**
+ * Service for Plan entity
+ */
 public interface PlanService {
 
     List<Plan> findAll();

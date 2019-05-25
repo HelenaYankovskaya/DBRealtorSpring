@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
+/**
+ * Class, which implements methods of RecommendedService interface
+ */
 @Service
 @Transactional
 public class RecommendedValueServiceImpl implements RecommendedValueService {

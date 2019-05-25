@@ -14,4 +14,5 @@ public interface FlatRepository extends JpaRepository<Flat, Long> {
 
     List<Flat> findAllByNumberRooms(Long numberRooms);
 
+    List<Flat> findAllByValueLessThan(Long value);
 }

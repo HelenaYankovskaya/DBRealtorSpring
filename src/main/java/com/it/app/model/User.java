@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * Class for creating the table User
@@ -37,7 +38,6 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "UserRoleId", nullable = false)
-    @NotNull(message = "{user.role.notNull}")
     private UserRole userRole;
 
     public User() {
@@ -51,28 +51,12 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Client getClients() {
         return clients;
     }
 
     public void setClients(Client clients) {
         this.clients = clients;
-    }
-
-    public UserRole getUserRole() {
-        return userRole;
-    }
-
-    public void setUserRole(UserRole userRole) {
-        this.userRole = userRole;
     }
 
     public Realtor getRealtor() {
@@ -83,6 +67,14 @@ public class User {
         this.realtor = realtor;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -91,5 +83,12 @@ public class User {
         this.password = password;
     }
 
+    public UserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(UserRole userRole) {
+        this.userRole = userRole;
+    }
 }
 

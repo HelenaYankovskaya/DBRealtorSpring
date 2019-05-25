@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Class, which implements methods of RealtorService interface
+ */
 @Service
 @Transactional
 public class RealtorServiceImpl implements RealtorService {

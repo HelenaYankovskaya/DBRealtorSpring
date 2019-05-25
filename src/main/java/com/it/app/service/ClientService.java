@@ -4,6 +4,9 @@ import com.it.app.model.Client;
 
 import java.util.List;
 
+/**
+ * Service for Client entity
+ */
 public interface ClientService {
 
     List<Client> findAll();

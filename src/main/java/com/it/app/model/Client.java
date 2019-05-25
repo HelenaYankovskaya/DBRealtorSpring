@@ -27,7 +27,7 @@ public class Client {
     @NotNull(message = "{client.user.notNull}")
     private User user;
 
-    @ManyToMany(mappedBy = "client", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "client", fetch = FetchType.LAZY)
     private Set<ServiceModel> services;
 
     public Client() {

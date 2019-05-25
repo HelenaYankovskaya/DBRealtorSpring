@@ -9,7 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Class, which implements methods of UserRoleService interface
+ */
 @Service
 @Transactional
 public class UserRoleServiceImpl implements UserRoleService {
@@ -33,7 +35,12 @@ public class UserRoleServiceImpl implements UserRoleService {
             return userRoleRepository.findById(id).orElseThrow(() -> new RuntimeException(localizedMessageSource.getMessage("error.role.notExist", new Object[]{})));
         }
 
-        @Override
+    @Override
+    public UserRole findByUserRole(String userRole) {
+        return null;
+    }
+
+    @Override
         public UserRole save(UserRole userRole) {
             validate(userRole.getId() != null, localizedMessageSource.getMessage("error.role.notHaveId", new Object[]{}));
             validate(userRoleRepository.existsByUserRole(userRole.getUserRole()), localizedMessageSource.getMessage("error.role.name.notUnique", new Object[]{}));

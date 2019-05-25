@@ -10,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
-
+/**
+ * Class, which implements methods of UserService interface
+ */
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -38,6 +40,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByUserName(String username) {
+        return userRepository.findByUserName(username);}
+
+    @Override
     public User save(User user) {
         validate(user.getId() != null, localizedMessageSource.getMessage("error.user.notHaveId", new Object[]{}));
         validate(userRepository.existsByName(user.getName()), localizedMessageSource.getMessage("error.user.name.notUnique", new Object[]{}));
@@ -48,7 +54,7 @@ public class UserServiceImpl implements UserService {
     public User update(User user) {
         final Long id = user.getId();
         validate(id == null, localizedMessageSource.getMessage("error.user.haveId", new Object[]{}));
-        final User duplicateUser = userRepository.findByName(user.getName());
+        final User duplicateUser = userRepository.findByUserName(user.getName());
         final boolean isDuplicateExists = duplicateUser != null && !Objects.equals(duplicateUser.getId(), id);
         validate(isDuplicateExists, localizedMessageSource.getMessage("error.user.name.notUnique", new Object[]{}));
         findById(id);
